@@ -33,8 +33,8 @@ function validate(str) {
         str = str.replace(/\?/ig, '<span class="warn">?</span>');
         str = str.replace('&#8618;', warnimg);
     }
-    if (/(#.*?)(\?|&)/ig.test(str)) {
-        str = str.replace(/(#.*?)(\?|&)/ig, '<span class="warn">$1</span>$2');
+    if (/(https?.*?)(#.*?)(\?|&)/ig.test(str)) {
+        str = str.replace(/(https?.*?)(#.*?)(\?|&)/ig, '<span class="warn">$1</span>$2');
         str = str.replace('&#8618;', warnimg);
     }
     return str;
@@ -44,12 +44,12 @@ function validate(str) {
 //**********************************************
 function showLinks() {
     var linksTable = document.getElementById('links'), row, col0, resultString = '', i, z;
-    
+
     // Clear Table
     while (linksTable.children.length > 0) {
         linksTable.removeChild(linksTable.children[linksTable.children.length - 1]);
     }
-    
+
     for (i = 0; i < filtLinks.length; i += 1) {
         // Create table elements
         row = document.createElement('tr');
@@ -58,7 +58,7 @@ function showLinks() {
         resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span>' +
             '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
                 highlight(filtLinks[i].url) + '</p></span>';
-        
+
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
             resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
         } else if (typeof filtLinks[i].header === "undefined") {
@@ -66,7 +66,7 @@ function showLinks() {
         } else {
             var checkall = (document.getElementById('fullCheck').checked) ? filtLinks[i].header.data.length : 1;
             for (z = 0; z < checkall; z += 1) {
-                
+
                 if (typeof filtLinks[i].header.data[z].response.info === "undefined" || typeof filtLinks[i].header.data[z].response.info.redirect_url === "undefined") {
                     if (typeof filtLinks[i].header.data[z].response.info === "undefined" || /^404$/.test(filtLinks[i].header.data[z].response.info.http_code)) {
                         resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
@@ -106,7 +106,7 @@ function filterLinks() {
 //**********************************************
 function openLinks() {
     var allLinks = {from: "openthis", allLinks: selectedLinks};
-    chrome.runtime.sendMessage(allLinks);   
+    chrome.runtime.sendMessage(allLinks);
 }
 
 // Get selected links from eventPage
@@ -118,11 +118,16 @@ function setLinks(links) {
     document.title = 'Redirect Results: ' + selectedLinks[0].title;
 }
 
+function showStuff() {
+  document.getElementById('compareto').style.height = '175px';
+  document.getElementById('compareto').style.width = '100%';
+}
+
 window.onload = function () {
     document.getElementById('filter').onkeyup = filterLinks;
     document.getElementById('highlight').onkeyup = showLinks;
     document.getElementById('fullCheck').onchange = showLinks;
     document.getElementById('openall').onclick = openLinks;
-    
+    document.getElementById('compareto').onclick = showStuff;
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';
 };
