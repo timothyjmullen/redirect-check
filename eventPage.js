@@ -1,0 +1,89 @@
+// Copyright (c) 2015 Tim Mullen. All rights reserved.
+// This is a non-persistent event page to pass the selected links to the new tab.
+/*jslint node: true */
+'use strict';
+
+var viewTabUrl = chrome.extension.getURL('results.html?id='),
+    selectedLinks = [];
+
+function makeID() {
+    var text = "",
+        possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        i;
+    for (i = 0; i < 5; i += 1) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+}
+
+chrome.runtime.onMessage.addListener(
+    function (request, sender) {
+        console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the popup");
+        
+        if (request.from === "popup") {
+            selectedLinks = request.selectedLinks;
+            
+            // Generate a unique page identifier
+            viewTabUrl = viewTabUrl.replace(/id=.*$/, 'id=') +  makeID();
+            
+            // Create new tab and send links along to the results page
+            chrome.tabs.create({
+                url: viewTabUrl
+            }, function (tab) {
+
+                var targetId = tab.id;
+                var sendLinks = function (tabId, changedProps) {
+                    // Wait for the new tab to finish loading.
+                    if (tabId !== targetId || changedProps.status !== "complete") { return; }
+                    chrome.tabs.onUpdated.removeListener(sendLinks);
+
+                    // Find the right window for the results tab.
+                    var views = chrome.extension.getViews();
+                    for (var i = 0; i < views.length; i++) {
+                        
+                        var view = views[i];
+                        if (view.location.href == viewTabUrl) {
+                            
+                            function makeRequest(ind, callback) {
+                                var xhr = new XMLHttpRequest();
+                                var index = ind;
+                                xhr.open("GET", "http://api.redirect-checker.net/?url=" + encodeURIComponent(selectedLinks[ind].url) + "&timeout=10&maxhops=1&meta-refresh=1&format=json", true);
+                                xhr.onreadystatechange = function () {
+                                    if (xhr.readyState == 4) {  
+                                        callback.call(xhr.responseText, index);
+                                    }
+                                }
+                                xhr.send();
+                            }
+                            
+                            for (var x = 0; x < selectedLinks.length; x += 1) {
+                                makeRequest(x, function (index) {
+                                    selectedLinks[index]["header"] = JSON.parse(this);
+                                    view.showLinks();
+                                });
+                            }
+                                                   
+                            view.setLinks(selectedLinks);
+                            break;
+                        }
+                    }
+                    
+                };
+
+                chrome.tabs.onUpdated.addListener(sendLinks);
+            });
+        } else if (request.from === "openthis") {
+            console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the popup");
+            var allLinks = request.allLinks, s, linksArray = [];
+            for (s = 0; s < allLinks.length; s += 1) {
+                if (!/mailto:|tel:/ig.test(allLinks[s].url)) {
+                    linksArray.push(allLinks[s].url);
+                }
+            }
+            chrome.windows.create({url: linksArray});
+        }
+    });

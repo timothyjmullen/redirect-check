@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<head>
+    <script src='popup.js'></script>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,700,400' rel='stylesheet' type='text/css'>
+    <style type="text/css">
+        body {
+            font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #ecebe9;
+            font-size: 13px;
+            color: #666;
+            height: 100%;
+            min-width: 700px;
+        }
+        
+        .rowa {
+            background-color: #fcfcfc;
+        }
+        
+        .rowb {
+            background-color: #f7f7f7;
+        }
+        
+        .rowa:hover {
+            background-color: #FFF;
+        }
+        
+        .rowb:hover {
+            background-color: #FFF;
+        }
+        
+        .txt img {
+            background-color: #a2b6c3;
+            max-width: 100%!important;
+            max-height: none !important;
+            height: auto!important;
+            width: auto!important;
+            display:block!important;
+        }
+        .txt, .txt * {
+            font-size:22px!important;
+            color:#66869a!important;
+            font-weight:bold!important;
+        }
+        .unsub {
+            background-color: #ff6a6a;
+        }
+        .unsub * * {
+            font-size:22px!important;
+            color:#FFF!important;
+            font-weight:bold!important;   
+        }
+        td {
+            padding: 10px;
+            color: #000!important;
+        }
+        
+        td *,
+        td * * {
+            color: #000!important;
+            font-size: 18px;
+        }
+        
+        th {
+            padding: 5px 10px;
+        }
+        
+        tr {
+            border: 1px solid #CCC;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        
+        button {
+            font-weight: 500;
+            color: #FFF;
+            font-size: 12px;
+            letter-spacing: 1px;
+            font-family: 'Raleway', Arial, sans-serif;
+            background-color: #66869a;
+            border-width: 0 0 3px 0;
+            border-bottom-color: #5e7e93;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            border-radius: 3px;
+            width: 180px;
+            height: 30px;
+            vertical-align:top;
+            margin: 5px 10px 0 0;
+            clear: both;
+            border-bottom-style: solid;
+        }
+        
+        button:hover {
+            background-color: #5e7e93;
+            border-bottom-color: #66869a;
+        }
+        
+        #showing {
+            width: 94%;
+            text-align: right;
+            margin: 0 auto;
+            color: #888;
+        }
+        
+        .break {
+            -ms-word-break: break-all;
+            word-break: break-all;
+            // Non standard for webkit
+            word-break: break-word;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+            hyphens: auto;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <!--<div style="float:right;"><input type="text" id="filter" placeholder="Filter" style="padding:8px;"></div>-->
+
+    <table id="links" cellspacing="0" cellpadding="0">
+        <tr style="border:0;">
+            <th valign="bottom">
+                <input type="checkbox" checked id="toggle_all">
+            </th>
+            <th align="left" valign="bottom">
+                <!--<label for="toggle_all" style="width:60%;vertical-align:baseline;">All</label>-->
+                <div style="float:right;">
+                    <button id="openall">OPEN SELECTED URLS</button>
+                    <button id="download0">CHECK SELECTED URLS</button>
+                </div>
+            </th>
+        </tr>
+    </table>
+    <br />
+    <button id="openall2">OPEN SELECTED URLS</button>
+    <button id="download1">CHECK SELECTED URLS</button>
+</body>
+
+</html>
