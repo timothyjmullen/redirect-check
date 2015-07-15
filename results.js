@@ -78,6 +78,9 @@ function showLinks() {
                 } else {
                     resultString += validate('<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + highlight(filtLinks[i].header.data[z].response.info.redirect_url));
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].response.info.redirect_url + '">visit link</a>]</nobr></p>';
+                    if (typeof filtLinks[i].asset !== "undefined") {
+                      resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&nbsp;&#8613;&nbsp; From Assets:</span> ' + filtLinks[i].asset;
+                    }
                 }
             }
         }
@@ -89,7 +92,7 @@ function showLinks() {
         row.appendChild(col0);
         linksTable.appendChild(row);
     }
-    document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
+    //document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
 }
 
 // Filter functionality - Add text/url option
@@ -118,16 +121,35 @@ function setLinks(links) {
     document.title = 'Redirect Results: ' + selectedLinks[0].title;
 }
 
+// Expand Textarea for Asset Input Box
 function showStuff() {
   document.getElementById('compareto').style.height = '175px';
   document.getElementById('compareto').style.width = '100%';
 }
 
+// Pull links from Assets
+function grabAssets() {
+  var assetArr = document.getElementById('compareto').value.match(/(href="|href=')(.*?)(?="|')/ig),
+      diff = new diff_match_patch();
+  for (var x in assetArr) {
+    if (typeof filtLinks[x].header !== "undefined") {
+      if (typeof filtLinks[x].header.data[1].response.info.redirect_url !== "undefined") {
+        var d = diff.diff_main(filtLinks[x].header.data[0].response.info.redirect_url, assetArr[x].replace(/href="|href='/ig, ''));
+        d = diff.diff_prettyHtml(d);
+        filtLinks[x].asset = d;
+      }
+    }
+  }
+  console.log(filtLinks);
+  showLinks();
+}
+
 window.onload = function () {
-    document.getElementById('filter').onkeyup = filterLinks;
+    //document.getElementById('filter').onkeyup = filterLinks;
     document.getElementById('highlight').onkeyup = showLinks;
     document.getElementById('fullCheck').onchange = showLinks;
     document.getElementById('openall').onclick = openLinks;
     document.getElementById('compareto').onclick = showStuff;
+    document.getElementById('urlcomp').onclick = grabAssets;
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';
 };
