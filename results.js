@@ -61,6 +61,9 @@ function showLinks() {
 
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
             resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
+            if (typeof filtLinks[i].asset !== "undefined") {
+              resultString += '<p class="break" style="padding-left:' + (7.75) + 'em"><span class="hea">&#8613; Asset Comparison:</span> ' + highlight(filtLinks[i].asset);
+            }
         } else if (typeof filtLinks[i].header === "undefined") {
             resultString += '<br />Loading...';
         } else {
@@ -78,8 +81,8 @@ function showLinks() {
                 } else {
                     resultString += validate('<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + highlight(filtLinks[i].header.data[z].response.info.redirect_url));
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].response.info.redirect_url + '">visit link</a>]</nobr></p>';
-                    if (typeof filtLinks[i].asset !== "undefined") {
-                      resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&nbsp;&#8613;&nbsp; From Assets:</span> ' + filtLinks[i].asset;
+                    if (typeof filtLinks[i].asset !== "undefined" && z == 0) {
+                      resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8613; Asset Comparison:</span> ' + highlight(filtLinks[i].asset);
                     }
                 }
             }
@@ -127,16 +130,22 @@ function showStuff() {
   document.getElementById('compareto').style.width = '100%';
 }
 
-// Pull links from Assets
+// Pull links from Assets / Run Comparison / Push to filtLinks JSON
 function grabAssets() {
   var assetArr = document.getElementById('compareto').value.match(/(href="|href=')(.*?)(?="|')/ig),
       diff = new diff_match_patch();
   for (var x in assetArr) {
-    if (typeof filtLinks[x].header !== "undefined") {
-      if (typeof filtLinks[x].header.data[1].response.info.redirect_url !== "undefined") {
-        var d = diff.diff_main(filtLinks[x].header.data[0].response.info.redirect_url, assetArr[x].replace(/href="|href='/ig, ''));
-        d = diff.diff_prettyHtml(d);
-        filtLinks[x].asset = d;
+    if (/tel:|mailto:/ig.test(filtLinks[x].url)) {
+          var d = diff.diff_main(filtLinks[x].url, assetArr[x].replace(/href="|href='/ig, ''));
+          d = diff.diff_prettyHtml(d);
+          filtLinks[x].asset = d;
+    } else {
+      if (typeof filtLinks[x].header !== "undefined") {
+        if (typeof filtLinks[x].header.data[0].response.info.redirect_url !== "undefined") {
+          var d = diff.diff_main(filtLinks[x].header.data[0].response.info.redirect_url, assetArr[x].replace(/href="|href='/ig, ''));
+          d = diff.diff_prettyHtml(d);
+          filtLinks[x].asset = d;
+        }
       }
     }
   }
