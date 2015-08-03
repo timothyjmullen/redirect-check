@@ -11,17 +11,17 @@ var allLinks = [],
 //********************************************************************************
 function showLinks() {
     var linksTable = document.getElementById('links'), i, row, col0, col1, checkbox;
-    
+
     while (linksTable.children.length > 1) {
         linksTable.removeChild(linksTable.children[linksTable.children.length - 1]);
     }
-    
+
     for (i = 0; i < filtLinks.length; i += 1) {
         row = document.createElement('tr');
         col0 = document.createElement('td');
         col1 = document.createElement('td');
         checkbox = document.createElement('input');
-       
+
         // Try to catch unsubscribe links and uncheck them.
         if (/unsub|opt out|opt-out|http:\/\/maybelline\.p\.delivery\.net\/m\/u\/mbl\/m\.asp|https:\/\/centurylink\.p\.delivery\.net\/m\/u\/cent\/cons\/c\.asp|http:\/\/samsclub\.p\.delivery\.net\/m\/u\/scl\/u\.asp|http:\/\/garnier\.p\.delivery\.net\/m\/u\/gar\/g\.asp|http:\/\/consumerreports\.p\.delivery\.net\/m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].text) || /unsub|opt out|opt-out|http:\/\/maybelline\.p\.delivery\.net\/m\/u\/mbl\/m\.asp|https:\/\/centurylink\.p\.delivery\.net\/m\/u\/cent\/cons\/c\.asp|http:\/\/samsclub\.p\.delivery\.net\/m\/u\/scl\/u\.asp|http:\/\/garnier\.p\.delivery\.net\/m\/u\/gar\/g\.asp|http:\/\/consumerreports\.p\.delivery\.net\/m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].url)) {
             checkbox.checked = false;
@@ -30,16 +30,16 @@ function showLinks() {
         } else {
             checkbox.checked = true;
         }
-        
+
         checkbox.type = 'checkbox';
         checkbox.id = 'check' + i;
         col0.appendChild(checkbox);
-        
+
         col1.innerHTML = '<label style="display:block;width:100%" for="check' + i + '"><span class="txt" >' + filtLinks[i].text + '</span><br /><span style="display:block;clear:both;font-size:11px!important;color:#000!important;font-style:italic;font-weight:normal!important;" class="break">' + filtLinks[i].url + '</span></label>';
-        
+
         // Alternating background color
         row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
-        
+
         row.appendChild(col0);
         row.appendChild(col1);
         linksTable.appendChild(row);
@@ -123,7 +123,7 @@ window.onload = function () {
 
     chrome.windows.getCurrent(function (currentWindow) {
         chrome.tabs.query({active: true, windowId: currentWindow.id}, function (activeTabs) {
-            chrome.tabs.executeScript(activeTabs[0].id, {file: 'getLinks.js', allFrames: true});
+            chrome.tabs.executeScript(activeTabs[0].id, {file: 'getLinks.js', allFrames: false});
         });
     });
 };

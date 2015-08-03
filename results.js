@@ -29,14 +29,17 @@ function highlight(url) {
 // Syntax Validation function
 //**********************************************
 function validate(str) {
-    if (/\?.*?\?/ig.test(str)) {
-        str = str.replace(/\?/ig, '<span class="warn">?</span>');
+    if (/(\?.*?)(\?)/ig.test(str)) {
+        str = str.replace(/(\?.*?)(\?)/ig, '$1<span class="warn">$2</span>');
         str = str.replace('&#8618;', warnimg);
     }
-    /*if (/(#.*?)(\?|&)/ig.test(str)) {
+    if (/(#.*?)(\?|&)/ig.test(str)) {
         str = str.replace(/(#.*?)(\?|&)/ig, '<span class="warn">$1</span>$2');
         str = str.replace('&#8618;', warnimg);
-    }*/
+    }
+    if (/^(http[^\?]*?)(&)/i.test(str)) {
+        str = str.replace(/^(http[^\?]*?)(&)/i, '$1<span class="warn">$2</span>')
+    }
     return str;
 }
 
@@ -57,12 +60,12 @@ function showLinks() {
 
         resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span>' +
             '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
-                highlight(filtLinks[i].url) + '</p></span>';
+                highlight(validate(filtLinks[i].url)) + '</p></span>';
 
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
             resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
         } else if (typeof filtLinks[i].header === "undefined") {
-            resultString += '<br />Loading...';
+            resultString += '<br /><span style="color:#CCC;"><span class="spinthis">&#8635;</span> Loading..</span>';
         } else {
             var checkall = (document.getElementById('fullCheck').checked) ? filtLinks[i].header.data.length : 1;
             for (z = 0; z < checkall; z += 1) {
@@ -76,7 +79,7 @@ function showLinks() {
                     }
                 } else {
                     //console.log(JSON.stringify(filtLinks[i].header.data[z]));
-                    resultString += validate('<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + highlight(filtLinks[i].header.data[z].redirect_url));
+                    resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].redirect_url + '">visit link</a>]</nobr></p>';
                 }
             }

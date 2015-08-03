@@ -1,13 +1,11 @@
 // Copyright (c) 2015 Tim Mullen. All rights reserved.
 // Send back to the popup a list of URLs and the linked text in a multi-dimensional array.
-// The popup injects this script into all frames in the active tab.
+// The popup injects this script into the first frame in the active tab.
 
 var linksArray = [],
     fullLinks = [],
-    title = document.getElementsByTagName("title")[0].innerHTML,
+    title = document.getElementsByTagName("title")[0].innerHTML || '',
     aXML = [].slice.apply(document.getElementsByTagName('a'));
-
-console.log(title);
 
 // Grab URL
 linksArray[0] = aXML.map(function (element) {
@@ -31,5 +29,4 @@ for (var i = 0; i < linksArray[0].length; i++) {
         });
     }
 }
-
 chrome.runtime.sendMessage(fullLinks);
