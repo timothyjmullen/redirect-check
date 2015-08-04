@@ -21,13 +21,13 @@ chrome.runtime.onMessage.addListener(
         console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the popup");
-        
+
         if (request.from === "popup") {
             selectedLinks = request.selectedLinks;
-            
+
             // Generate a unique page identifier
             viewTabUrl = viewTabUrl.replace(/id=.*$/, 'id=') +  makeID();
-            
+
             // Create new tab and send links along to the results page
             chrome.tabs.create({
                 url: viewTabUrl
@@ -42,34 +42,37 @@ chrome.runtime.onMessage.addListener(
                     // Find the right window for the results tab.
                     var views = chrome.extension.getViews();
                     for (var i = 0; i < views.length; i++) {
-                        
+
                         var view = views[i];
                         if (view.location.href == viewTabUrl) {
-                            
+
                             function makeRequest(ind, callback) {
                                 var xhr = new XMLHttpRequest();
                                 var index = ind;
-                                xhr.open("GET", "http://api.redirect-checker.net/?url=" + encodeURIComponent(selectedLinks[ind].url) + "&timeout=10&maxhops=1&meta-refresh=1&format=json", true);
+                                xhr.open("GET", "http://www.timothyjmullen.com/sandbox/redirect-check.php?url=" + encodeURIComponent(selectedLinks[ind].url), true);
                                 xhr.onreadystatechange = function () {
-                                    if (xhr.readyState == 4) {  
+                                    if (xhr.readyState == 4) {
+                                        //console.log(xhr);
                                         callback.call(xhr.responseText, index);
                                     }
                                 }
                                 xhr.send();
                             }
-                            
+
                             for (var x = 0; x < selectedLinks.length; x += 1) {
                                 makeRequest(x, function (index) {
                                     selectedLinks[index]["header"] = JSON.parse(this);
+                                    //selectedLinks[index]["header"] = this;
+                                    //console.log(selectedLinks[index]["header"]);
                                     view.showLinks();
                                 });
                             }
-                                                   
+
                             view.setLinks(selectedLinks);
                             break;
                         }
                     }
-                    
+
                 };
 
                 chrome.tabs.onUpdated.addListener(sendLinks);

@@ -29,13 +29,16 @@ function highlight(url) {
 // Syntax Validation function
 //**********************************************
 function validate(str) {
-    if (/\?.*?\?/ig.test(str)) {
-        str = str.replace(/\?/ig, '<span class="warn">?</span>');
+    if (/(\?.*?)(\?)/ig.test(str)) {
+        str = str.replace(/(\?.*?)(\?)/ig, '$1<span class="warn">$2</span>');
         str = str.replace('&#8618;', warnimg);
     }
     if (/(#.*?)(\?|&)/ig.test(str)) {
         str = str.replace(/(#.*?)(\?|&)/ig, '<span class="warn">$1</span>$2');
         str = str.replace('&#8618;', warnimg);
+    }
+    if (/^(http[^\?]*?)(&)/i.test(str)) {
+        str = str.replace(/^(http[^\?]*?)(&)/i, '$1<span class="warn">$2</span>')
     }
     return str;
 }
@@ -44,12 +47,12 @@ function validate(str) {
 //**********************************************
 function showLinks() {
     var linksTable = document.getElementById('links'), row, col0, resultString = '', i, z;
-    
+
     // Clear Table
     while (linksTable.children.length > 0) {
         linksTable.removeChild(linksTable.children[linksTable.children.length - 1]);
     }
-    
+
     for (i = 0; i < filtLinks.length; i += 1) {
         // Create table elements
         row = document.createElement('tr');
@@ -57,18 +60,17 @@ function showLinks() {
 
         resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span>' +
             '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
-                highlight(filtLinks[i].url) + '</p></span>';
-        
+                highlight(validate(filtLinks[i].url)) + '</p></span>';
+
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
             resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
         } else if (typeof filtLinks[i].header === "undefined") {
-            resultString += '<br />Loading...';
+            resultString += '<br /><span style="color:#CCC;"><span class="spinthis">&#8635;</span> Loading..</span>';
         } else {
             var checkall = (document.getElementById('fullCheck').checked) ? filtLinks[i].header.data.length : 1;
             for (z = 0; z < checkall; z += 1) {
-                
-                if (typeof filtLinks[i].header.data[z].response.info === "undefined" || typeof filtLinks[i].header.data[z].response.info.redirect_url === "undefined") {
-                    if (typeof filtLinks[i].header.data[z].response.info === "undefined" || /^404$/.test(filtLinks[i].header.data[z].response.info.http_code)) {
+                if (typeof filtLinks[i].header.data[z] === "undefined" || typeof filtLinks[i].header.data[z].redirect_url === "undefined" || filtLinks[i].header.data[z].redirect_url === "") {
+                    if (typeof filtLinks[i].header.data[z] === "undefined" || /^404$/.test(filtLinks[i].header.data[z].http_code)) {
                         resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
                             errorimg + ' HTTP/1.1 404 Not Found</p>';
                     } else {
@@ -76,8 +78,9 @@ function showLinks() {
                             noimg + ' No Further Redirect</p>';
                     }
                 } else {
-                    resultString += validate('<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + highlight(filtLinks[i].header.data[z].response.info.redirect_url));
-                    resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].response.info.redirect_url + '">visit link</a>]</nobr></p>';
+                    //console.log(JSON.stringify(filtLinks[i].header.data[z]));
+                    resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].redirect_url + '">visit link</a>]</nobr></p>';
                 }
             }
         }
@@ -106,7 +109,7 @@ function filterLinks() {
 //**********************************************
 function openLinks() {
     var allLinks = {from: "openthis", allLinks: selectedLinks};
-    chrome.runtime.sendMessage(allLinks);   
+    chrome.runtime.sendMessage(allLinks);
 }
 
 // Get selected links from eventPage
@@ -123,6 +126,6 @@ window.onload = function () {
     document.getElementById('highlight').onkeyup = showLinks;
     document.getElementById('fullCheck').onchange = showLinks;
     document.getElementById('openall').onclick = openLinks;
-    
+
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';
 };

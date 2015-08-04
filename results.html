@@ -12,7 +12,14 @@
             margin: 0;
             height: 100%;
         }
-        
+        .spinthis {
+            -webkit-animation:spin 2s linear infinite;
+            -moz-animation:spin 2s linear infinite;
+            animation:spin 2s linear infinite;
+        }
+        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
         .break {
             -ms-word-break: break-all;
             word-break: break-all;
@@ -25,7 +32,7 @@
             margin: 8px 0 0 0;
             text-indent: -6.75em;
         }
-        
+
         .hdr {
             position: absolute;
             top: 0px;
@@ -37,11 +44,11 @@
             border-bottom: #3a3a3a solid 1px;
             box-shadow: 0 1px 2px #666;
         }
-        
+
         .hea {
             font-weight: bold;
         }
-        .orig { 
+        .orig {
             color:#888;
             clear:both;
             margin-top:10px;
@@ -50,23 +57,23 @@
             font-weight: bold;
             color: #ff6a6a;
         }
-        
+
         .rowa {
             background-color: #fcfcfc;
         }
-        
+
         .rowb {
             background-color: #f7f7f7;
         }
-        
+
         .rowa:hover, .rowb:hover {
             background-color: #FFF;
         }
-        
+
         .unsub {
             background-color: #ff6a6a;
         }
-        
+
         td {
             padding: 10px;
             color: #000!important;
@@ -74,13 +81,13 @@
             width: 100%;
         }
         /*td * {
-           color: #000!important; 
+           color: #000!important;
         }*/
-        
+
         tr {
             border-top: 1px solid #CCC;
         }
-        
+
         a {
             color: #a2b6c3;
             text-decoration: underline;
@@ -92,7 +99,7 @@
             margin: 0;
             clear: both;
         }
-        
+
         button {
             font-weight: 500;
             color: #FFF;
@@ -114,12 +121,12 @@
             clear: both;
             border-bottom-style: solid;
         }
-        
+
         button:hover {
             background-color: #5e7e93;
             border-bottom-color: #66869a;
         }
-        
+
         h1 {
             margin: 0;
             padding: 0;
@@ -133,7 +140,7 @@
         .txt img {
             background-color: #a2b6c3;
             max-width: 100%!important;
-            max-height: none !important;
+            max-height: none!important;
             height: auto!important;
             width: auto!important;
             display:block!important;
@@ -149,17 +156,17 @@
             color: #888;
             float: right;
         }
-        
+
         #showall {
             float: left;
             color: #888;
         }
-        
+
         .wrapper {
             width: 95%;
             margin: 0 auto;
         }
-        
+
         #filter {
             padding: 6px 16px 6px 6px;
             margin-top: 5px;
@@ -168,7 +175,7 @@
             background-size: 17px 15px;
             border: 1px #CCC solid;
         }
-        
+
         #highlight {
             padding: 6px 16px 6px 6px;
             margin-top: 5px;
@@ -178,14 +185,18 @@
             border: 1px #CCC solid;
             margin-left: 10px;
         }
-        
+
         .hlt {
             background-color: #FFFF99;
         }
-        
+
         .warn {
             font-weight: bold;
             background-color: #ff6a6a;
+            color:#FFF;
+            padding:0 3px;
+            border-radius: 3px;
+            margin:0 3px;
         }
         #copy {
             color:#ecebe9;
@@ -214,7 +225,7 @@
 
     <div class="wrapper" style="margin-top:15px;">
         <div id="showall">
-            <input type="checkbox" id="fullCheck" style="margin:0;padding:0;" /> <span style="padding-bottom:3px;"><label for="fullCheck">Display full redirect chain.</label></span></div>
+            <input type="checkbox" id="fullCheck" style="margin:0;padding:0;" /> <span style="vertical-align:2px;"><label for="fullCheck">Display full redirect chain.</label></span></div>
         <div id="showing"></div>
     </div>
     <div style="width:95%;clear:both;margin:10px auto;border: 1px solid #CCC;border-top:0;">
