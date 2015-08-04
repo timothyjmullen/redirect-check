@@ -5,7 +5,15 @@
 var linksArray = [],
     fullLinks = [],
     title = document.getElementsByTagName("title")[0].innerHTML || '',
-    aXML = [].slice.apply(document.getElementsByTagName('a'));
+    aXML = [],
+    tabURL = window.location.href || '';
+
+// Only grab email links in Gmail
+if (/mail\.google\.com/i.test(tabURL)) {
+  aXML = [].slice.apply(document.querySelectorAll('.a3s a'));
+} else {
+  aXML = [].slice.apply(document.getElementsByTagName('a'))
+}
 
 // Grab URL
 linksArray[0] = aXML.map(function (element) {
@@ -29,4 +37,5 @@ for (var i = 0; i < linksArray[0].length; i++) {
         });
     }
 }
+
 chrome.runtime.sendMessage(fullLinks);
