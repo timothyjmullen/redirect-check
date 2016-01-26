@@ -12,18 +12,17 @@
             margin: 0;
             height: 100%;
         }
+        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
         .spinthis {
             -webkit-animation:spin 2s linear infinite;
             -moz-animation:spin 2s linear infinite;
             animation:spin 2s linear infinite;
         }
-        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
         .break {
             -ms-word-break: break-all;
             word-break: break-all;
-            // Non standard for webkit
             word-break: break-word;
             -webkit-hyphens: auto;
             -moz-hyphens: auto;
@@ -213,13 +212,60 @@
             display:block;
             width:95%;
         }
+        #time:hover span {
+          cursor:help;
+          opacity:1;
+          top:-80px;
+          left:-103px;
+          display:flex;
+          align-items: center;
+        }
+        #time:hover {
+          cursor:help;
+          position:relative;
+        }
+        span.tooltip {
+              position:absolute;
+              text-indent: 0;
+              width: 300px;
+              display:none;
+              height: 60px;
+              line-height: 20px;
+              padding: 3px 10px;
+              font-size: 12px;
+              text-align: center;
+              color: #FFF;
+              opacity:0;
+              background: #ff6a6a;
+              border: 3px solid #ff6a6a;
+              border-radius: 5px;
+              font-family: Arial, sans-serif;
+              text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
+              box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
+              -webkit-transition: opacity .25s ease-in-out;
+              transition: opacity .25s ease-in-out;
+        }
+        span.tooltip:before {
+              content: attr(content);
+        }
+        span.tooltip:after {
+              content:" ";
+              position: absolute;
+              width: 0;
+              height: 0;
+              border-width: 8px;
+              border-style: solid;
+              border-color: #ff6a6a transparent transparent transparent;
+              top: 100%;
+              left: 30%;
+        }
     </style>
 </head>
 
 <body>
     <div class="hdr">
         <div class="wrapper">
-            <h1 style="float:left;"><span style="font-size:50px;line-height:35px;vertical-align:-6px;">&#8618;</span> Alt &amp; Title Results</h1>
+            <h1 style="float:left;"><span style="font-size:45px;line-height:35px;vertical-align:-6px;">&#8618;</span> Alt &amp; Title Results</h1>
             <div style="float:right;">
                 <input type="text" id="highlight" placeholder="Highlight" />
             </div>

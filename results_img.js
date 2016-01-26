@@ -12,12 +12,12 @@ var allImgs = [],
 // Highlight function
 //**********************************************
 function highlight(url) {
-    var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)|(\|)|(\()|(\))/g, function (all, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth) {
-        var array = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth], f;
-        for (f = 0; f < array.length; f += 1) {
-            if (array[f]) { return ('\\' + array[f]); }
-        }
-    });
+  var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)|(\|)|(\()|(\))|(\[)|(\])/g, function (all, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelvth) {
+      var array = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelvth], f;
+      for (f = 0; f < array.length; f += 1) {
+          if (array[f]) { return ('\\' + array[f]); }
+      }
+  });
     if (highValue) {
         highValue = new RegExp('(' + highValue + ')', 'ig');
         console.log(highValue.source);
@@ -25,6 +25,15 @@ function highlight(url) {
         url = url.replace(highValue, '<span class="hlt">$1</span>');
     }
     return url;
+}
+
+// Image Name Validation function
+//**********************************************
+function validate(str) {
+    if (/(\s|\+|\%20)/ig.test(str)) {
+        str = str.replace(/(\s|\+|\%20)/ig, '<span class="warn" id="time">$1<span class="warn tooltip" content="Spaces in image names can cause loading problems in Gmail."></span></span>');
+    }
+    return str;
 }
 
 // Build table for page
@@ -44,6 +53,8 @@ function showImgs() {
 
         if (document.getElementById('fullCheck').checked) {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span>\n' +
+              '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Image:</b> ' +
+              highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p></span>' +
               '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Alt Text:</b> ' +
                   highlight(allImgs[i].alt) + '</p></span>\n' +
                   '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Title Text:</b> ' +
@@ -55,8 +66,10 @@ function showImgs() {
 
                   row.appendChild(col0);
                   imgTable.appendChild(row);
-        } else if (!/spacer/i.test(allImgs[i].src) && (allImgs[i].alt || allImgs[i].title)) {
+        } else if (!/spacer/i.test(allImgs[i].src)) {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span>\n' +
+          '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Image:</b> ' +
+          highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p></span>' +
               '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Alt Text:</b> ' +
                   highlight(allImgs[i].alt) + '</p></span>\n' +
                   '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Title Text:</b> ' +
