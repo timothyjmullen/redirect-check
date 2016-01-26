@@ -4,7 +4,9 @@
 'use strict';
 
 var viewTabUrl = chrome.extension.getURL('results.html?id='),
-    selectedLinks = [];
+    viewTabUrlImgs = chrome.extension.getURL('results_img.html?id='),
+    selectedLinks = [],
+    allImgs = [];
 
 function makeID() {
     var text = "",
@@ -18,9 +20,9 @@ function makeID() {
 
 chrome.runtime.onMessage.addListener(
     function (request, sender) {
-        console.log(sender.tab ?
+        /*console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
-                "from the popup");
+                "from the popup");*/
 
         if (request.from === "popup") {
             selectedLinks = request.selectedLinks;
@@ -88,5 +90,29 @@ chrome.runtime.onMessage.addListener(
                 }
             }
             chrome.windows.create({url: linksArray});
-        }
-    });
+        } else if (request.from == "popup_img") {
+            // Generate a unique page identifier
+            viewTabUrlImgs = viewTabUrlImgs.replace(/id=.*$/, 'id=') +  makeID();
+            // Create new tab and send links along to the results page
+            chrome.tabs.create({
+                url: viewTabUrlImgs
+            }, function (tab) {
+              var targetId = tab.id;
+              var sendImgs = function (tabId, changedProps) {
+                  // Wait for the new tab to finish loading.
+                  if (tabId !== targetId || changedProps.status !== "complete") { return; }
+                  chrome.tabs.onUpdated.removeListener(sendImgs);
+
+              // Find the right window for the results tab.
+              var views = chrome.extension.getViews();
+              for (var i = 0; i < views.length; i++) {
+                  var view = views[i];
+                  if (view.location.href == viewTabUrlImgs) {
+                    view.setImgs(request.allImgs);
+                  }
+            }
+          }
+            chrome.tabs.onUpdated.addListener(sendImgs);
+        });
+    }
+});

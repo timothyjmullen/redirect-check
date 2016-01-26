@@ -5,7 +5,8 @@
 
 var allLinks = [],
     filtLinks = [],
-    selectedLinks = [];
+    selectedLinks = [],
+    allImgs = [];
 
 // Display all visible links.
 //********************************************************************************
@@ -71,6 +72,12 @@ function checkLinks() {
     chrome.runtime.sendMessage({from: "popup", selectedLinks: selectedLinks});
 }
 
+// Send list of images to eventPage
+//********************************************************************************
+function checkAltTitle() {
+    chrome.runtime.sendMessage({from: "popup_img", allImgs: allImgs});
+}
+
 // Re-filter allLinks into filtLinks and reshow filtLinks.
 //********************************************************************************
 function filterLinks() {
@@ -92,9 +99,19 @@ chrome.runtime.onMessage.addListener(
         /*console.log(sender.tab ?
               "From a content script from this page: " + sender.tab.url :
               "From the extension");*/
-        allLinks = request;
-        filtLinks = allLinks;
-        showLinks();
+        if (request.from === "links") {
+          allLinks = request.fullLinks;
+          filtLinks = allLinks;
+          document.getElementById('download0').innerHTML = "CHECK SELECTED URLS";
+          document.getElementById('download1').innerHTML = "CHECK SELECTED URLS";
+          document.getElementById('openall').innerHTML = "OPEN SELECTED URLS";
+          document.getElementById('openall2').innerHTML = "OPEN SELECTED URLS";
+          showLinks();
+        } else if (request.from === "imgs") {
+          document.getElementById('titlealt_top').innerHTML = 'CHECK ALT &amp; TITLE TEXT';
+          document.getElementById('titlealt_bot').innerHTML = 'CHECK ALT &amp; TITLE TEXT';
+          allImgs = request.fullImg;
+        }
     }
 );
 
@@ -120,6 +137,8 @@ window.onload = function () {
     document.getElementById('download1').onclick = checkLinks;
     document.getElementById('openall').onclick = openLinks;
     document.getElementById('openall2').onclick = openLinks;
+    document.getElementById('titlealt_top').onclick = checkAltTitle;
+    document.getElementById('titlealt_bot').onclick = checkAltTitle;
 
     chrome.windows.getCurrent(function (currentWindow) {
         chrome.tabs.query({active: true, windowId: currentWindow.id}, function (activeTabs) {

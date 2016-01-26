@@ -12,23 +12,23 @@
             height: 100%;
             min-width: 700px;
         }
-        
+
         .rowa {
             background-color: #fcfcfc;
         }
-        
+
         .rowb {
             background-color: #f7f7f7;
         }
-        
+
         .rowa:hover {
             background-color: #FFF;
         }
-        
+
         .rowb:hover {
             background-color: #FFF;
         }
-        
+
         .txt img {
             background-color: #a2b6c3;
             max-width: 100%!important;
@@ -48,32 +48,32 @@
         .unsub * * {
             font-size:22px!important;
             color:#FFF!important;
-            font-weight:bold!important;   
+            font-weight:bold!important;
         }
         td {
             padding: 10px;
             color: #000!important;
         }
-        
+
         td *,
         td * * {
             color: #000!important;
             font-size: 18px;
         }
-        
+
         th {
             padding: 5px 10px;
         }
-        
+
         tr {
             border: 1px solid #CCC;
         }
-        
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
-        
+
         button {
             font-weight: 500;
             color: #FFF;
@@ -95,19 +95,19 @@
             clear: both;
             border-bottom-style: solid;
         }
-        
+
         button:hover {
             background-color: #5e7e93;
             border-bottom-color: #66869a;
         }
-        
+
         #showing {
             width: 94%;
             text-align: right;
             margin: 0 auto;
             color: #888;
         }
-        
+
         .break {
             -ms-word-break: break-all;
             word-break: break-all;
@@ -118,29 +118,36 @@
             hyphens: auto;
             overflow-wrap: break-word;
         }
+        .spinthis {
+            -webkit-animation:spin 2s linear infinite;
+            -moz-animation:spin 2s linear infinite;
+            animation:spin 2s linear infinite;
+        }
+        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
     </style>
 </head>
 
 <body>
-    <!--<div style="float:right;"><input type="text" id="filter" placeholder="Filter" style="padding:8px;"></div>-->
-
     <table id="links" cellspacing="0" cellpadding="0">
         <tr style="border:0;">
             <th valign="bottom">
                 <input type="checkbox" checked id="toggle_all">
             </th>
             <th align="left" valign="bottom">
-                <!--<label for="toggle_all" style="width:60%;vertical-align:baseline;">All</label>-->
                 <div style="float:right;">
-                    <button id="openall">OPEN SELECTED URLS</button>
-                    <button id="download0">CHECK SELECTED URLS</button>
+                    <button id="titlealt_top"><span style="font-style:italic;">Loading...</span></button>
+                    <button id="openall"><span style="font-style:italic;">Loading...</span></button>
+                    <button id="download0"><span style="font-style:italic;">Loading...</span></button>
                 </div>
             </th>
         </tr>
     </table>
     <br />
-    <button id="openall2">OPEN SELECTED URLS</button>
-    <button id="download1">CHECK SELECTED URLS</button>
+    <button id="titlealt_bot"><span style="font-style:italic;">Loading...</span></button>
+    <button id="openall2"><span style="font-style:italic;">Loading...</span></button>
+    <button id="download1"><span style="font-style:italic;">Loading...</span></button>
 </body>
 
 </html>

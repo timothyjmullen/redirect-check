@@ -12,12 +12,12 @@ var selectedLinks = [],
 // Highlight function
 //**********************************************
 function highlight(url) {
-    var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)/g, function (all, first, second, third, fourth, fifth, sixth, seventh) {
-        var array = [first, second, third, fourth, fifth, sixth, seventh], f;
-        for (f = 0; f < 6; f += 1) {
-            if (array[f]) { return ('\\' + array[f]); }
-        }
-    });
+  var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)|(\|)|(\()|(\))/g, function (all, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth) {
+      var array = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth], f;
+      for (f = 0; f < array.length; f += 1) {
+          if (array[f]) { return ('\\' + array[f]); }
+      }
+  });
     if (highValue) {
         highValue = new RegExp('(' + highValue + ')', 'ig');
         url = url.replace(/<span class="hlt">(.*?)<\/span>/ig, '$1');
