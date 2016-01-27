@@ -126,10 +126,56 @@
         @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
         @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
         @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+        .onoffswitch {
+            position: relative; width: 30px;
+            display:inline-block;
+            -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+        }
+        .onoffswitch-checkbox {
+            display: none;
+        }
+        .onoffswitch-label {
+            display: block; overflow: hidden; cursor: pointer;
+            height: 8px; padding: 0; line-height: 12px;
+            border: 0px solid #FFFFFF; border-radius: 16px;
+            background-color: #9E9E9E;
+        }
+        .onoffswitch-label:before {
+            content: "";
+            display: block; width: 16px; margin: -4px;
+            background: #FFFFFF;
+            position: absolute; top: 0; bottom: 0;
+            right: 18px;
+            border-radius: 16px;
+            box-shadow: 0 6px 12px 0px #757575;
+        }
+        .onoffswitch-checkbox:checked + .onoffswitch-label {
+            background-color: #9E9E9E;
+        }
+        .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+           border-color: #9E9E9E;
+        }
+        .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+            margin-left: 0;
+        }
+        .onoffswitch-checkbox:checked + .onoffswitch-label:before {
+            right: 0px;
+            background-color: #FFFFFF;
+            box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 
 <body>
+  <div style="width:100%;">
+    <label for="myonoffswitch">PT&#160;&#160;</label>
+    <div class="onoffswitch">
+      <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
+      <label class="onoffswitch-label" for="myonoffswitch"></label>
+    </div>
+    <label for="myonoffswitch">&#160;&#160;HTML</label>
+  </div>
+  <div id="HTML" style="display:block;">
     <table id="links" cellspacing="0" cellpadding="0">
         <tr style="border:0;">
             <th valign="bottom">
@@ -148,6 +194,13 @@
     <button id="titlealt_bot"><span style="font-style:italic;">Loading...</span></button>
     <button id="openall2"><span style="font-style:italic;">Loading...</span></button>
     <button id="download1"><span style="font-style:italic;">Loading...</span></button>
-</body>
+    <br />
+  </div>
+    <div id="PT" style="display:none;">
+      <br /><br />
+    <textarea id="pt_copy" placeholder="Paste Plain Text here." style="width:100%;height:100px;"></textarea>
+    <button id="checkpt">CHECK PLAIN TEXT URLS</button>  <span style="line-height:30px;">&#160;&#160;&#160;*This will run a request on all URLs, so you should remove any live opt-outs</span>
+  </div>
 
+</body>
 </html>
