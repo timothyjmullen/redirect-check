@@ -59,17 +59,45 @@ function toggleAll() {
 
 // Send list of selected links to eventPage
 //********************************************************************************
-function checkLinks() {
+function checkPT() {
+  var ptc = document.getElementById("pt_copy").value, u, pturls, pttext;
+  pturls = ptc.match(/http.*$/gmi);
+  pttext = ptc.match(/(^.*\s)http/gmi);
+  filtLinks = [];
+  for (u = 0; u < pturls.length; u += 1){
+    filtLinks.push({
+        title: "Plain Text Results",
+        url: pturls[u],
+        text: pttext[u].replace(/http/ig, '')
+      })
+  }
+  checkLinks(true);
+}
+
+// Send list of selected links to eventPage
+//********************************************************************************
+function checkLinks(pt) {
     var i;
-    for (i = 0; i < filtLinks.length; i += 1) {
-        if (document.getElementById('check' + i).checked) {
+    if (pt) {
+      for (i = 0; i < filtLinks.length; i += 1) {
             selectedLinks.push({
                 title: filtLinks[i].title,
                 url: filtLinks[i].url,
                 text: filtLinks[i].text
             });
-        }
+      }
+    } else {
+      for (i = 0; i < filtLinks.length; i += 1) {
+          if (document.getElementById('check' + i).checked) {
+              selectedLinks.push({
+                  title: filtLinks[i].title,
+                  url: filtLinks[i].url,
+                  text: filtLinks[i].text
+              });
+          }
+      }
     }
+
     chrome.runtime.sendMessage({from: "popup", selectedLinks: selectedLinks});
 }
 
@@ -129,13 +157,21 @@ function openLinks() {
     chrome.runtime.sendMessage(allLinks);
 }
 
+function toggle_visibility() {
+   var e = document.getElementById("PT"), r = document.getElementById("HTML");
+   if(e.style.display == 'block') { e.style.display = 'none'; } else { e.style.display = 'block'; }
+   if(r.style.display == 'block') { r.style.display = 'none'; } else { r.style.display = 'block'; }
+}
+
 // Set up event handlers and inject getLinks.js into all frames in the active tab.
 //********************************************************************************
 window.onload = function () {
     //document.getElementById('filter').onkeyup = filterLinks;
+    document.getElementById('myonoffswitch').onchange = toggle_visibility;
     document.getElementById('toggle_all').onchange = toggleAll;
     document.getElementById('download0').onclick = checkLinks;
     document.getElementById('download1').onclick = checkLinks;
+    document.getElementById('checkpt').onclick = checkPT;
     document.getElementById('openall').onclick = openLinks;
     document.getElementById('openall2').onclick = openLinks;
     document.getElementById('titlealt_top').onclick = checkAltTitle;
