@@ -24,7 +24,8 @@ function showLinks() {
         checkbox = document.createElement('input');
 
         // Try to catch unsubscribe links and uncheck them.
-        if (/unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].text) || /unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].url)) {
+        if (/unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].text) ||
+            /unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].url)) {
             checkbox.checked = false;
             col0.className = 'unsub';
             col1.className = 'unsub';

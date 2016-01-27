@@ -12,8 +12,8 @@ var selectedLinks = [],
 // Highlight function
 //**********************************************
 function highlight(url) {
-  var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)|(\|)|(\()|(\))/g, function (all, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth) {
-      var array = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth], f;
+  var highValue = document.getElementById('highlight').value.replace(/(\^)|(\\)|(\?)|(\.)|(\^)|(\$)|(\+)|(\|)|(\()|(\))|(\[)|(\])/g, function (all, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelvth) {
+      var array = [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh, twelvth], f;
       for (f = 0; f < array.length; f += 1) {
           if (array[f]) { return ('\\' + array[f]); }
       }
@@ -30,15 +30,15 @@ function highlight(url) {
 //**********************************************
 function validate(str) {
     if (/(\?.*?)(\?)/ig.test(str)) {
-        str = str.replace(/(\?.*?)(\?)/ig, '$1<span class="warn">$2</span>');
+        str = str.replace(/(\?.*?)(\?)/ig, '$1<span class="warn" id="time">$2<span class="warn tooltip" content="There should never be more than one question mark in a query string."></span></span>');
         str = str.replace('&#8618;', warnimg);
     }
     if (/(#.*?)(\?|&)/ig.test(str)) {
-        str = str.replace(/(#.*?)(\?|&)/ig, '<span class="warn">$1</span>$2');
+        str = str.replace(/(#.*?)(\?|&)/ig, '<span class="warn" id="time">$1<span class="warn tooltip" content="Fragments (jump links) should always be at the end of a query string."></span></span>$2');
         str = str.replace('&#8618;', warnimg);
     }
     if (/^(http[^\?]*?)(&)/i.test(str)) {
-        str = str.replace(/^(http[^\?]*?)(&)/i, '$1<span class="warn">$2</span>')
+        str = str.replace(/^(http[^\?]*?)(&)/i, '$1<span class="warn" id="time">$2<span class="warn tooltip" content="The query string is missing an opening question mark."></span></span>')
     }
     return str;
 }
