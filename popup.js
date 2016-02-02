@@ -78,7 +78,7 @@ function checkPT() {
 //********************************************************************************
 function checkLinks(pt) {
     var i;
-    if (pt) {
+    if (pt == true) {
       for (i = 0; i < filtLinks.length; i += 1) {
             selectedLinks.push({
                 title: filtLinks[i].title,
