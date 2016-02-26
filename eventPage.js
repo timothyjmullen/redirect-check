@@ -51,7 +51,7 @@ chrome.runtime.onMessage.addListener(
                             function makeRequest(ind, callback) {
                                 var xhr = new XMLHttpRequest();
                                 var index = ind;
-                                xhr.open("GET", "http://www.timothyjmullen.com/sandbox/redirect-check.php?url=" + encodeURIComponent(selectedLinks[ind].url), true);
+                                xhr.open("GET", "http://rc-tmullen.rhcloud.com/redirect-check.php?url=" + encodeURIComponent(selectedLinks[ind].url), true);
                                 xhr.onreadystatechange = function () {
                                     if (xhr.readyState == 4) {
                                         //console.log(xhr);
