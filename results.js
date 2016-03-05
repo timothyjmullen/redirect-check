@@ -1,4 +1,3 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // This gets the selected links from the eventPage, checks the redirects and calls out any validation errors.
 /*jslint node: true */
 'use strict';

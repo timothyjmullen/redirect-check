@@ -66,7 +66,7 @@ function showImgs() {
 
                   row.appendChild(col0);
                   imgTable.appendChild(row);
-        } else if (!/spacer/i.test(allImgs[i].src)) {
+        } else if (allImgs[i].size > 50) {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span>\n' +
           '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Image:</b> ' +
           highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p></span>' +
@@ -89,6 +89,7 @@ function showImgs() {
 //**********************************************
 function setImgs(imgs) {
     allImgs = imgs;
+    console.log(imgs);
     showImgs();
     document.title = 'Alt & Title Results: ' + allImgs[0].ptitle;
 }

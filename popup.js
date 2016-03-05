@@ -1,4 +1,3 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // This gets all of the links from the page and lets the user select which ones to check.
 /*jslint node: true */
 'use strict';

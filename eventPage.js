@@ -1,4 +1,3 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // This is a non-persistent event page to pass the selected links to the new tab.
 /*jslint node: true */
 'use strict';
@@ -20,9 +19,6 @@ function makeID() {
 
 chrome.runtime.onMessage.addListener(
     function (request, sender) {
-        /*console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the popup");*/
 
         if (request.from === "popup") {
             selectedLinks = request.selectedLinks;
@@ -91,9 +87,10 @@ chrome.runtime.onMessage.addListener(
             }
             chrome.windows.create({url: linksArray});
         } else if (request.from == "popup_img") {
+            allImgs = request.allImgs;
             // Generate a unique page identifier
             viewTabUrlImgs = viewTabUrlImgs.replace(/id=.*$/, 'id=') +  makeID();
-            // Create new tab and send links along to the results page
+            // Create new tab and send images along to the results page
             chrome.tabs.create({
                 url: viewTabUrlImgs
             }, function (tab) {
@@ -108,6 +105,28 @@ chrome.runtime.onMessage.addListener(
               for (var i = 0; i < views.length; i++) {
                   var view = views[i];
                   if (view.location.href == viewTabUrlImgs) {
+
+                    function makeRequest(ind, callback) {
+                        var xhr = new XMLHttpRequest();
+                        var index = ind;
+                        xhr.open("HEAD", allImgs[ind].src, true);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4) {
+                                console.log(xhr.getResponseHeader('Content-Length'));
+                                callback.call(xhr.getResponseHeader('Content-Length'), index);
+                            }
+                        }
+                        xhr.send();
+                    }
+
+                    for (var x = 0; x < allImgs.length; x += 1) {
+                        makeRequest(x, function (index) {
+                            allImgs[index]["size"] = this;
+                            console.log(allImgs[index].size);
+                            view.setImgs(allImgs);
+                        });
+                    }
+
                     view.setImgs(request.allImgs);
                   }
             }
