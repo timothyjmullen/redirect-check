@@ -57,7 +57,7 @@ function showLinks() {
         row = document.createElement('tr');
         col0 = document.createElement('td');
 
-        resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span>' +
+        resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span><hr />' +
             '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
                 highlight(validate(filtLinks[i].url)) + '</p></span>';
 
@@ -66,7 +66,7 @@ function showLinks() {
         } else if (typeof filtLinks[i].header === "undefined") {
             resultString += '<br /><span style="color:#CCC;"><span class="spinthis">&#8635;</span> Loading..</span>';
         } else {
-            var checkall = (document.getElementById('fullCheck').checked) ? filtLinks[i].header.data.length : 1;
+            var checkall = (document.getElementById('myonoffswitch').checked) ? filtLinks[i].header.data.length : 1;
             for (z = 0; z < checkall; z += 1) {
                 if (typeof filtLinks[i].header.data[z] === "undefined" || typeof filtLinks[i].header.data[z].redirect_url === "undefined" || filtLinks[i].header.data[z].redirect_url === "") {
                     if (typeof filtLinks[i].header.data[z] === "undefined" || /^404$/.test(filtLinks[i].header.data[z].http_code)) {
@@ -77,7 +77,6 @@ function showLinks() {
                             noimg + ' No Further Redirect</p>';
                     }
                 } else {
-                    //console.log(JSON.stringify(filtLinks[i].header.data[z]));
                     resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].redirect_url + '">visit link</a>]</nobr></p>';
                 }
@@ -86,12 +85,15 @@ function showLinks() {
         col0.innerHTML = resultString;
 
         // Alternating background color
-        row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
+        //row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
 
         row.appendChild(col0);
         linksTable.appendChild(row);
+        // Show table
+        document.getElementById('loading').className = 'hide';
+        linksTable.className = 'show';
     }
-    document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
+    //document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
 }
 
 // Filter functionality - Add text/url option
@@ -120,10 +122,21 @@ function setLinks(links) {
     document.title = 'Redirect Results: ' + selectedLinks[0].title;
 }
 
+// Check preference and check option accordingly
+//**********************************************
+function preferenceCheck() {
+  chrome.storage.sync.get({
+    fullchain: true
+  }, function(items) {
+    document.getElementById('myonoffswitch').checked = items.fullchain;
+  });
+}
+
 window.onload = function () {
-    document.getElementById('filter').onkeyup = filterLinks;
+    preferenceCheck();
+    //document.getElementById('filter').onkeyup = filterLinks;
     document.getElementById('highlight').onkeyup = showLinks;
-    document.getElementById('fullCheck').onchange = showLinks;
+    document.getElementById('myonoffswitch').onchange = showLinks;
     document.getElementById('openall').onclick = openLinks;
 
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';

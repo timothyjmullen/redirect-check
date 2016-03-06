@@ -122,16 +122,15 @@ chrome.runtime.onMessage.addListener(
                     for (var x = 0; x < allImgs.length; x += 1) {
                         makeRequest(x, function (index) {
                             allImgs[index]["size"] = this;
-                            console.log(allImgs[index].size);
+                            //console.log(allImgs[index].size);
                             view.setImgs(allImgs);
                         });
                     }
-
                     view.setImgs(request.allImgs);
                   }
-            }
-          }
-            chrome.tabs.onUpdated.addListener(sendImgs);
+                }
+              }
+              chrome.tabs.onUpdated.addListener(sendImgs);
         });
     }
 });
