@@ -58,11 +58,11 @@ function showLinks() {
         col0 = document.createElement('td');
 
         resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span><hr />' +
-            '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
+            '<p class="break"><span class="orig"><b>Original Link:</b> ' +
                 highlight(validate(filtLinks[i].url)) + '</p></span>';
 
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
-            resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
+            resultString += '<p style="margin:8px 0 0 0;" class="no">' + noimg + ' No Further Redirect</p>';
         } else if (typeof filtLinks[i].header === "undefined") {
             resultString += '<br /><span style="color:#CCC;"><span class="spinthis">&#8635;</span> Loading..</span>';
         } else {
@@ -70,14 +70,19 @@ function showLinks() {
             for (z = 0; z < checkall; z += 1) {
                 if (typeof filtLinks[i].header.data[z] === "undefined" || typeof filtLinks[i].header.data[z].redirect_url === "undefined" || filtLinks[i].header.data[z].redirect_url === "") {
                     if (typeof filtLinks[i].header.data[z] === "undefined" || /^404$/.test(filtLinks[i].header.data[z].http_code)) {
-                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
+                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 1)) + 'em" class="no">' +
                             errorimg + ' HTTP/1.1 404 Not Found</p>';
                     } else {
-                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
+                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 1)) + 'em" class="no">' +
                             noimg + ' No Further Redirect</p>';
                     }
                 } else {
-                    resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    if (z > 0) {
+                        resultString += '<p class="break" style="padding-left:' + ((z + 1)) + 'em"><span id="time" class="warn">&#8618; Redirects to:<span class="warn tooltip" content="Multiple redirects could be an indication of a URL issue."></span></span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    } else {
+                        resultString += '<p class="break" style="padding-left:' + ((z + 1)) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    }
+
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].redirect_url + '">visit link</a>]</nobr></p>';
                 }
             }
