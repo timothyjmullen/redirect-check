@@ -74,14 +74,14 @@ function showImgs() {
 
         if (document.getElementById('myonoffswitch').checked) {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span><hr />\n' +
-            '<p class="break" style="padding-left:6.75em;"><b>Image:</b> ' +
+            '<p class="break"><b>Image:</b> ' +
             highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p>' +
             '<p class="break"><b>Alt Text:</b> ' +
             highlight(allImgs[i].alt) + '</p>\n' +
             '<p class="break"><b>Title Text:</b> ' +
             highlight(allImgs[i].title) + '</p>' +
             '<p class="break"><b>Image Size:</b> ' +
-            validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
+            validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)).replace(/nan.*/i, "") + '</p>';
           col0.innerHTML = resultString;
 
           // Alternating background color
@@ -103,7 +103,7 @@ function showImgs() {
                   '<p class="break"><b>Title Text:</b> ' +
                   highlight(allImgs[i].title) + '</p>' +
                   '<p class="break"><b>Image Size:</b> ' +
-                  validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
+                  validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)).replace(/nan.*/i, "") + '</p>';
                   col0.innerHTML = resultString;
 
                   // Alternating background color
