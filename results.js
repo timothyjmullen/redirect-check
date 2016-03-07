@@ -1,11 +1,10 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // This gets the selected links from the eventPage, checks the redirects and calls out any validation errors.
 /*jslint node: true */
 'use strict';
 
 var selectedLinks = [],
     filtLinks = [],
-    noimg = '<img src="no_red.png" height="12" style="width:auto;background:none;display:inline;"/>',
+    noimg = '<span style="font-size:18px;">&#8677;</span>',
     errorimg = '<img src="error_red.png" height="13" style="width:auto;background:none;display:inline;"/>',
     warnimg = '<img src="warning.png" height="13" style="width:auto;background:none;display:inline;"/>';
 
@@ -58,28 +57,32 @@ function showLinks() {
         row = document.createElement('tr');
         col0 = document.createElement('td');
 
-        resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span>' +
-            '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Original Link:</b> ' +
+        resultString = '<span class="txt">' + filtLinks[i].text.replace(/display:block|display:none/ig, 'display:inline') + '</span><hr />' +
+            '<p class="break"><span class="orig"><b>Original Link:</b> ' +
                 highlight(validate(filtLinks[i].url)) + '</p></span>';
 
         if (/tel:|mailto:/ig.test(filtLinks[i].url)) {
-            resultString += '<p style="margin:8px 0 0 0;padding-left:2em" class="no">' + noimg + ' No Further Redirect</p>';
+            resultString += '<p style="margin:8px 0 0 0;" class="no">' + noimg + ' No Further Redirect</p>';
         } else if (typeof filtLinks[i].header === "undefined") {
             resultString += '<br /><span style="color:#CCC;"><span class="spinthis">&#8635;</span> Loading..</span>';
         } else {
-            var checkall = (document.getElementById('fullCheck').checked) ? filtLinks[i].header.data.length : 1;
+            var checkall = (document.getElementById('myonoffswitch').checked) ? filtLinks[i].header.data.length : 1;
             for (z = 0; z < checkall; z += 1) {
                 if (typeof filtLinks[i].header.data[z] === "undefined" || typeof filtLinks[i].header.data[z].redirect_url === "undefined" || filtLinks[i].header.data[z].redirect_url === "") {
                     if (typeof filtLinks[i].header.data[z] === "undefined" || /^404$/.test(filtLinks[i].header.data[z].http_code)) {
-                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
+                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 1)) + 'em" class="no">' +
                             errorimg + ' HTTP/1.1 404 Not Found</p>';
                     } else {
-                        resultString += '<p style="margin:8px 0 0 0;padding-left:' + ((z + 2)) + 'em" class="no">' +
+                        resultString += '<p style="margin:8px 0 0 0;font-weight:bold;padding-left:' + ((z + 1)) + 'em" class="orig">' +
                             noimg + ' No Further Redirect</p>';
                     }
                 } else {
-                    //console.log(JSON.stringify(filtLinks[i].header.data[z]));
-                    resultString += '<p class="break" style="padding-left:' + ((z + 1) + 6.75) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    if (z > 0) {
+                        resultString += '<p class="break" style="padding-left:' + ((z + 1)) + 'em"><span id="time" class="warn">&#8618;<span class="warn tooltip" content="Multiple redirects could be an indication of a URL issue."></span></span> <b>Redirects to:</b> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    } else {
+                        resultString += '<p class="break" style="padding-left:' + ((z + 1)) + 'em"><span class="hea">&#8618; Redirects to:</span> ' + validate(highlight(filtLinks[i].header.data[z].redirect_url));
+                    }
+
                     resultString += ' &#160;<nobr>[<a target="_blank" href="' + filtLinks[i].header.data[z].redirect_url + '">visit link</a>]</nobr></p>';
                 }
             }
@@ -87,12 +90,15 @@ function showLinks() {
         col0.innerHTML = resultString;
 
         // Alternating background color
-        row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
+        //row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
 
         row.appendChild(col0);
         linksTable.appendChild(row);
+        // Show table
+        document.getElementById('loading').className = 'hide';
+        linksTable.className = 'show';
     }
-    document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
+    //document.getElementById('showing').innerHTML = 'Showing ' + filtLinks.length + ' of ' + selectedLinks.length + '.';
 }
 
 // Filter functionality - Add text/url option
@@ -121,11 +127,31 @@ function setLinks(links) {
     document.title = 'Redirect Results: ' + selectedLinks[0].title;
 }
 
+// Check preference and check option accordingly
+//**********************************************
+function preferenceCheck() {
+  chrome.storage.sync.get({
+    fullchain: true
+  }, function(items) {
+    document.getElementById('myonoffswitch').checked = items.fullchain;
+  });
+}
+
+// Download Stuff
+//**********************************************
+function downloadResults() {
+  var resTable = document.getElementById('links').innerHTML;
+  var blob = new Blob(["<html><head><style>body {padding:20px;} a, a:hover {color:#000;} table, tr {border-collapse:collapse;border:2px solid #000;} td {padding:15px;} .hea {font-weight:bold;} .break {word-break:break-all;word-break:break-word;}</style></head><body><table>" + resTable + "</table></body></html>"], {type: "text/html;charset=utf-8"});
+  saveAs(blob, "redirect-results.html");
+}
+
 window.onload = function () {
-    document.getElementById('filter').onkeyup = filterLinks;
+    preferenceCheck();
+    //document.getElementById('filter').onkeyup = filterLinks;
     document.getElementById('highlight').onkeyup = showLinks;
-    document.getElementById('fullCheck').onchange = showLinks;
+    document.getElementById('myonoffswitch').onchange = showLinks;
     document.getElementById('openall').onclick = openLinks;
+    document.getElementById('save').onclick = downloadResults;
 
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';
 };

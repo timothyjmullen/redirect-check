@@ -1,4 +1,3 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // Send back to the popup a list of URLs and the linked text in a multi-dimensional array.
 // The popup injects this script into the first frame in the active tab.
 

@@ -2,172 +2,37 @@
 
 <head>
     <script src='popup.js'></script>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:300,700,400' rel='stylesheet' type='text/css'>
-    <style type="text/css">
-        body {
-            font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #ecebe9;
-            font-size: 13px;
-            color: #666;
-            height: 100%;
-            min-width: 700px;
-        }
-
-        .rowa {
-            background-color: #fcfcfc;
-        }
-
-        .rowb {
-            background-color: #f7f7f7;
-        }
-
-        .rowa:hover {
-            background-color: #FFF;
-        }
-
-        .rowb:hover {
-            background-color: #FFF;
-        }
-
-        .txt img {
-            background-color: #a2b6c3;
-            max-width: 100%!important;
-            max-height: none !important;
-            height: auto!important;
-            width: auto!important;
-            display:block!important;
-        }
-        .txt, .txt * {
-            font-size:22px!important;
-            color:#66869a!important;
-            font-weight:bold!important;
-        }
-        .unsub {
-            background-color: #ff6a6a;
-        }
-        .unsub * * {
-            font-size:22px!important;
-            color:#FFF!important;
-            font-weight:bold!important;
-        }
-        td {
-            padding: 10px;
-            color: #000!important;
-        }
-
-        td *,
-        td * * {
-            color: #000!important;
-            font-size: 18px;
-        }
-
-        th {
-            padding: 5px 10px;
-        }
-
-        tr {
-            border: 1px solid #CCC;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        button {
-            font-weight: 500;
-            color: #FFF;
-            font-size: 12px;
-            letter-spacing: 1px;
-            font-family: 'Raleway', Arial, sans-serif;
-            background-color: #66869a;
-            border-width: 0 0 3px 0;
-            border-bottom-color: #5e7e93;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -ms-border-radius: 3px;
-            -o-border-radius: 3px;
-            border-radius: 3px;
-            width: 180px;
-            height: 30px;
-            vertical-align:top;
-            margin: 5px 10px 0 0;
-            clear: both;
-            border-bottom-style: solid;
-        }
-
-        button:hover {
-            background-color: #5e7e93;
-            border-bottom-color: #66869a;
-        }
-
-        #showing {
-            width: 94%;
-            text-align: right;
-            margin: 0 auto;
-            color: #888;
-        }
-
-        .break {
-            -ms-word-break: break-all;
-            word-break: break-all;
-            // Non standard for webkit
-            word-break: break-word;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
-            hyphens: auto;
-            overflow-wrap: break-word;
-        }
-        .spinthis {
-            -webkit-animation:spin 2s linear infinite;
-            -moz-animation:spin 2s linear infinite;
-            animation:spin 2s linear infinite;
-        }
-        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-        .onoffswitch {
-            position: relative; width: 30px;
-            display:inline-block;
-            -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
-        }
-        .onoffswitch-checkbox {
-            display: none;
-        }
-        .onoffswitch-label {
-            display: block; overflow: hidden; cursor: pointer;
-            height: 8px; padding: 0; line-height: 12px;
-            border: 0px solid #FFFFFF; border-radius: 16px;
-            background-color: #9E9E9E;
-        }
-        .onoffswitch-label:before {
-            content: "";
-            display: block; width: 16px; margin: -4px;
-            background: #FFFFFF;
-            position: absolute; top: 0; bottom: 0;
-            right: 18px;
-            border-radius: 16px;
-            box-shadow: 0 6px 12px 0px #757575;
-        }
-        .onoffswitch-checkbox:checked + .onoffswitch-label {
-            background-color: #9E9E9E;
-        }
-        .onoffswitch-checkbox:checked + .onoffswitch-label, .onoffswitch-checkbox:checked + .onoffswitch-label:before {
-           border-color: #9E9E9E;
-        }
-        .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-            margin-left: 0;
-        }
-        .onoffswitch-checkbox:checked + .onoffswitch-label:before {
-            right: 0px;
-            background-color: #FFFFFF;
-            box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
-        }
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='main.css' rel='stylesheet' type='text/css'/>
+    <style>
+      body {
+        min-width:620px;
+        padding:10px;
+      }
+      button {
+        width: 180px;
+      }
+      table {
+        display:table;
+      }
+      td {
+        padding:15px;
+        border-bottom:1px solid #ccc;
+      }
+      .break {
+        text-indent:0;
+      }
+      th {
+        padding:10px 0 10px 10px;
+      }
+      #download0 {
+        margin-right:0;
+      }
     </style>
 </head>
 
 <body>
-  <div style="width:100%;">
+  <div style="width:100%;text-align:right;">
     <label for="myonoffswitch">PT&#160;&#160;</label>
     <div class="onoffswitch">
       <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked>
@@ -184,16 +49,16 @@
             <th align="left" valign="bottom">
                 <div style="float:right;">
                     <button id="titlealt_top"><span style="font-style:italic;">Loading...</span></button>
-                    <button id="openall"><span style="font-style:italic;">Loading...</span></button>
-                    <button id="download0"><span style="font-style:italic;">Loading...</span></button>
+                    <button id="openall"><span style="font-style:italic;">...</span></button>
+                    <button id="download0"><span style="font-style:italic;">...</span></button>
                 </div>
             </th>
         </tr>
     </table>
     <br />
     <button id="titlealt_bot"><span style="font-style:italic;">Loading...</span></button>
-    <button id="openall2"><span style="font-style:italic;">Loading...</span></button>
-    <button id="download1"><span style="font-style:italic;">Loading...</span></button>
+    <button id="openall2"><span style="font-style:italic;">...</span></button>
+    <button id="download1"><span style="font-style:italic;">...</span></button>
     <br />
   </div>
     <div id="PT" style="display:none;">

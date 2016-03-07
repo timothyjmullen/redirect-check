@@ -1,4 +1,3 @@
-// Copyright (c) 2015 Tim Mullen. All rights reserved.
 // This gets all of the links from the page and lets the user select which ones to check.
 /*jslint node: true */
 'use strict';
@@ -22,13 +21,14 @@ function showLinks() {
         col0 = document.createElement('td');
         col1 = document.createElement('td');
         checkbox = document.createElement('input');
-
+        col0.className = "col0";
+        col1.className = "col1";
         // Try to catch unsubscribe links and uncheck them.
         if (/unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].text) ||
             /unsub|opt out|opt-out|optout|m\/u\/mbl\/m\.asp|m\/u\/cent\/cons\/c\.asp|m\/u\/scl\/u\.asp|m\/u\/gar\/g\.asp|m\/p\/csu\/cli\/unsub\.asp/ig.test(filtLinks[i].url)) {
             checkbox.checked = false;
-            col0.className = 'unsub';
-            col1.className = 'unsub';
+            col0.className = 'unsub col0';
+            col1.className = 'unsub col1';
         } else {
             checkbox.checked = true;
         }
@@ -37,10 +37,10 @@ function showLinks() {
         checkbox.id = 'check' + i;
         col0.appendChild(checkbox);
 
-        col1.innerHTML = '<label style="display:block;width:100%" for="check' + i + '"><span class="txt" >' + filtLinks[i].text + '</span><br /><span style="display:block;clear:both;font-size:11px!important;color:#000!important;font-style:italic;font-weight:normal!important;" class="break">' + filtLinks[i].url + '</span></label>';
+        col1.innerHTML = '<label style="display:block;width:100%" for="check' + i + '"><span class="txt" >' + filtLinks[i].text + '</span><span style="display:block;clear:both;font-size:11px!important;color:#000!important;font-style:italic;font-weight:normal!important;" class="break">' + filtLinks[i].url + '</span></label>';
 
         // Alternating background color
-        row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
+        //row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
 
         row.appendChild(col0);
         row.appendChild(col1);

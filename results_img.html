@@ -1,291 +1,47 @@
 <!DOCTYPE html>
 <head>
     <script src='results_img.js'></script>
-    <link href='http://fonts.googleapis.com/css?family=Raleway:300,700,400' rel='stylesheet' type='text/css'>
-    <style type="text/css">
-        body {
-            font-family: Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: #ecebe9;
-            font-size: 13px;
-            color: #000;
-            padding: 0;
-            margin: 0;
-            height: 100%;
-        }
-        @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
-        @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
-        @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-        .spinthis {
-            -webkit-animation:spin 2s linear infinite;
-            -moz-animation:spin 2s linear infinite;
-            animation:spin 2s linear infinite;
-        }
-        .break {
-            -ms-word-break: break-all;
-            word-break: break-all;
-            word-break: break-word;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
-            hyphens: auto;
-            overflow-wrap: break-word;
-            margin: 8px 0 0 0;
-            text-indent: -6.75em;
-        }
-
-        .hdr {
-            position: absolute;
-            top: 0px;
-            padding: 5px 0;
-            margin-bottom: 20px;
-            background-color: #2a2a2a;
-            width: 100%;
-            clear: both;
-            border-bottom: #3a3a3a solid 1px;
-            box-shadow: 0 1px 2px #666;
-            z-index:999;
-        }
-
-        .hea {
-            font-weight: bold;
-        }
-        .orig {
-            color:#888;
-            clear:both;
-            margin-top:10px;
-        }
-        .no {
-            font-weight: bold;
-            color: #ff6a6a;
-        }
-
-        .rowa {
-            background-color: #fcfcfc;
-        }
-
-        .rowb {
-            background-color: #f7f7f7;
-        }
-
-        .rowa:hover, .rowb:hover {
-            background-color: #FFF;
-        }
-
-        .unsub {
-            background-color: #ff6a6a;
-        }
-
-        td {
-            padding: 10px;
-            color: #000!important;
-            font-size: 16px;
-            width: 100%;
-        }
-
-        tr {
-            border-top: 1px solid #CCC;
-        }
-
-        a {
-            color: #a2b6c3;
-            text-decoration: underline;
-        }
-        p {clear:both;margin-top:10px;}
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 0;
-            clear: both;
-        }
-
-        button {
-            font-weight: 500;
-            color: #FFF;
-            font-size: 12px;
-            letter-spacing: 1px;
-            font-family: 'Raleway', Arial, sans-serif;
-            background-color: #66869a;
-            border-width: 0 0 3px 0;
-            border-bottom-color: #5e7e93;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -ms-border-radius: 3px;
-            -o-border-radius: 3px;
-            border-radius: 3px;
-            width: 150px;
-            height: 30px;
-            vertical-align:top;
-            margin: 5px 10px 0 0;
-            clear: both;
-            border-bottom-style: solid;
-        }
-
-        button:hover {
-            background-color: #5e7e93;
-            border-bottom-color: #66869a;
-        }
-
-        h1 {
-            margin: 0;
-            padding: 0;
-            font-weight: normal;
-            font-family: 'Raleway', Arial, sans-serif;
-            color: #FFF;
-        }
-        .txt {
-            clear:both;
-        }
-        .txt img {
-            background-color: #a2b6c3;
-            max-width: 100%!important;
-            max-height: none!important;
-            height: auto!important;
-            width: auto!important;
-            display:block!important;
-            visibility:visible!important;
-        }
-        .txt, .txt * {
-            font-size:22px!important;
-            color:#66869a!important;
-            font-weight:bold!important;
-        }
-        #showing {
-            text-align: right;
-            color: #888;
-            float: right;
-        }
-
-        #showall {
-            float: left;
-            color: #888;
-        }
-
-        .wrapper {
-            width: 95%;
-            margin: 0 auto;
-        }
-
-        .img_cont {
-            width: 100%;
-            margin: 0 auto;
-            position:relative;
-            clear:both;
-            float:left;
-        }
-
-        #filter {
-            padding: 6px 16px 6px 6px;
-            margin-top: 5px;
-            width: 100px;
-            background: url("filter_light.png") right no-repeat #F0F0F0;
-            background-size: 17px 15px;
-            border: 1px #CCC solid;
-        }
-
-        #highlight {
-            padding: 6px 16px 6px 6px;
-            margin-top: 5px;
-            width: 150px;
-            background: url("highlight.png") right no-repeat #F0F0F0;
-            background-size: 19px 15px;
-            border: 1px #CCC solid;
-            margin-left: 10px;
-        }
-
-        .hlt {
-            background-color: #FFFF99;
-        }
-
-        .warn {
-            font-weight: bold;
-            background-color: #ff6a6a;
-            color:#FFF;
-            padding:0 3px;
-            border-radius: 3px;
-            margin:0 3px;
-        }
-        #copy {
-            color:#f0f0f0;
-            margin: 0 auto;
-            text-align:right;
-            height:30px;
-            clear:both;
-            display:block;
-            width:95%;
-        }
-        #time:hover span {
-          cursor:help;
-          opacity:1;
-          top:-80px;
-          left:-103px;
-          display:flex;
-          align-items: center;
-        }
-        #time:hover {
-          cursor:help;
-          position:relative;
-        }
-        span.tooltip {
-              position:absolute;
-              text-indent: 0;
-              width: 300px;
-              display:none;
-              height: 60px;
-              line-height: 20px;
-              padding: 3px 10px;
-              font-size: 12px;
-              text-align: center;
-              color: #FFF;
-              opacity:0;
-              background: #ff6a6a;
-              border: 3px solid #ff6a6a;
-              border-radius: 5px;
-              font-family: Arial, sans-serif;
-              text-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 1px;
-              box-shadow: rgba(0, 0, 0, 0.0980392) 1px 1px 2px 0px;
-              -webkit-transition: opacity .25s ease-in-out;
-              transition: opacity .25s ease-in-out;
-        }
-        span.tooltip:before {
-              content: attr(content);
-        }
-        span.tooltip:after {
-              content:" ";
-              position: absolute;
-              width: 0;
-              height: 0;
-              border-width: 8px;
-              border-style: solid;
-              border-color: #ff6a6a transparent transparent transparent;
-              top: 100%;
-              left: 30%;
-        }
-    </style>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+    <link href='main.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
     <div class="hdr">
         <div class="wrapper">
-            <h1 style="float:left;"><span style="font-size:45px;line-height:35px;vertical-align:-6px;">&#8618;</span> Alt &amp; Title Results</h1>
-            <div style="float:right;">
+            <h1 class="fl headline">Alt &amp; Title Text Results</h1>
+            <div class="hdr-container fr">
                 <input type="text" id="highlight" placeholder="Highlight" />
             </div>
         </div>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <div class="wrapper" style="margin-top:15px;">
+    <div class="wrapper-body">
         <div id="showall">
-            <input type="checkbox" id="fullCheck" style="margin:0;padding:0;" /> <span style="vertical-align:2px;"><label for="fullCheck">Show all spacer images.</label></span></div>
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+            <label class="onoffswitch-label" for="myonoffswitch"></label>
+          </div>
+          <label for="myonoffswitch">&#160;&#160;Show All Images</label>
+            <!--<input type="checkbox" id="fullCheck" style="margin:0;padding:0;" /> <span style="vertical-align:2px;"><label for="fullCheck">Show all spacer images.</label></span>--></div>
         <div id="showing"></div>
     </div>
     <div class="img_cont">
-    <div style="width:95%;clear:both;margin:10px auto;border: 1px solid #CCC;border-top:0;">
-        <table id="links" cellspacing="0" cellpadding="0" width="100%">
-        </table>
+      <div class="wrapper">
+        <div id="loading">
+          <div id="cssload-pgloading">
+          	<div class="cssload-loadingwrap">
+          		<ul class="cssload-bokeh">
+          			<li></li>
+          			<li></li>
+          			<li></li>
+          			<li></li>
+          		</ul>
+          	 </div>
+            </div>
+          </div>
+          <table id="links" class="hide" cellspacing="8" cellpadding="0" width="100%">
+          </table>
+      </div>
     </div>
-  </div>
     <br />
     <br />
     <div id="copy"></div>

@@ -36,6 +36,27 @@ function validate(str) {
     return str;
 }
 
+// Image Sie Validation
+//**********************************************
+function validateSize(num, formatted) {
+    if (num > 1048576) {
+        return '<span class="warn" id="time">' + formatted + '<span class="warn tooltip" content="This image is larger than recommended for email; it could load very slowly on mobile devices."></span></span>'
+    }
+    return formatted;
+}
+
+// Format bytes to KB, MB, or GB
+//**********************************************
+function formatBytes(bytes,decimals) {
+   if(bytes == NaN) return 'unavailable';
+   if(bytes == 0) return '0 Byte';
+   var k = 1000; // or 1024 for binary
+   var dm = decimals + 1 || 3;
+   var sizes = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+   var i = Math.floor(Math.log(bytes) / Math.log(k));
+   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
 // Build table for page
 //**********************************************
 function showImgs() {
@@ -51,37 +72,51 @@ function showImgs() {
         row = document.createElement('tr');
         col0 = document.createElement('td');
 
-        if (document.getElementById('fullCheck').checked) {
-          resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span>\n' +
-              '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Image:</b> ' +
-              highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p></span>' +
-              '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Alt Text:</b> ' +
-                  highlight(allImgs[i].alt) + '</p></span>\n' +
-                  '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Title Text:</b> ' +
-                  highlight(allImgs[i].title) + '</p></span>';
+        if (document.getElementById('myonoffswitch').checked) {
+          resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span><hr />\n' +
+            '<p class="break" style="padding-left:6.75em;"><b>Image:</b> ' +
+            highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p>' +
+            '<p class="break"><b>Alt Text:</b> ' +
+            highlight(allImgs[i].alt) + '</p>\n' +
+            '<p class="break"><b>Title Text:</b> ' +
+            highlight(allImgs[i].title) + '</p>' +
+            '<p class="break"><b>Image Size:</b> ' +
+            validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
+          col0.innerHTML = resultString;
+
+          // Alternating background color
+          //row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
+
+          row.appendChild(col0);
+          imgTable.appendChild(row);
+
+          // Show table
+          document.getElementById('loading').className = 'hide';
+          imgTable.className = 'show';
+
+        } else if ((allImgs[i].size > 1024 && !/spacer/i.test(allImgs[i].src)) || (allImgs[i].alt || allImgs[i].title)) {
+          resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span><hr />\n' +
+          '<p class="break"><b>Image:</b> ' +
+          highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p>' +
+              '<p class="break"><b>Alt Text:</b> ' +
+                  highlight(allImgs[i].alt) + '</p>\n' +
+                  '<p class="break"><b>Title Text:</b> ' +
+                  highlight(allImgs[i].title) + '</p>' +
+                  '<p class="break"><b>Image Size:</b> ' +
+                  validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
                   col0.innerHTML = resultString;
 
                   // Alternating background color
-                  row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
+                  //row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
 
                   row.appendChild(col0);
                   imgTable.appendChild(row);
-        } else if (!/spacer/i.test(allImgs[i].src)) {
-          resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span>\n' +
-          '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Image:</b> ' +
-          highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p></span>' +
-              '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Alt Text:</b> ' +
-                  highlight(allImgs[i].alt) + '</p></span>\n' +
-                  '<p class="break" style="padding-left:6.75em;"><span class="orig"><b>Title Text:</b> ' +
-                  highlight(allImgs[i].title) + '</p></span>';
-                  col0.innerHTML = resultString;
 
-                  // Alternating background color
-                  row.className = (i % 2 === 0) ? 'rowa' : 'rowb';
-
-                  row.appendChild(col0);
-                  imgTable.appendChild(row);
+                  // Show table
+                  document.getElementById('loading').className = 'hide';
+                  imgTable.className = 'show';
         }
+        document.getElementById('showing').innerHTML = 'Showing ' + imgTable.children.length + ' of ' + allImgs.length + '.';
     }
 }
 
@@ -93,8 +128,19 @@ function setImgs(imgs) {
     document.title = 'Alt & Title Results: ' + allImgs[0].ptitle;
 }
 
+// Check preference and check option accordingly
+//**********************************************
+function preferenceCheck() {
+  chrome.storage.sync.get({
+    allimages: false
+  }, function(items) {
+    document.getElementById('myonoffswitch').checked = items.allimages;
+  });
+}
+
 window.onload = function () {
+    preferenceCheck();
     document.getElementById('highlight').onkeyup = showImgs;
-    document.getElementById('fullCheck').onchange = showImgs;
+    document.getElementById('myonoffswitch').onchange = showImgs;
     document.getElementById('copy').innerHTML = '&copy;' + new Date().getFullYear() + ' Tim Mullen';
 };
