@@ -189,6 +189,16 @@ button:hover {
     float: right;
     padding-right:10px;
 }
+#save {
+    text-align: right;
+    color: #888;
+    float: right;
+    padding-right:10px;
+}
+#save:hover {
+  text-decoration:underline;
+  cursor:pointer;
+}
 
 #showall {
     float: left;
@@ -199,7 +209,7 @@ button:hover {
 .img_cont {
     width: 100%;
     margin: 0 auto;
-    position:relative;
+    /*position:relative;*/
     clear:both;
     float:left;
 }
@@ -248,7 +258,7 @@ button:hover {
   cursor:help;
   opacity:1;
   top:-80px;
-  left:-103px;
+  left:-86px;
   display:flex;
   align-items: center;
 }
@@ -259,9 +269,10 @@ button:hover {
 span.tooltip {
       position:absolute;
       text-indent: 0;
-      width: 300px;
+      width: 250px;
       display:none;
       height: 60px;
+      left:10%;
       line-height: 20px;
       padding: 3px 10px;
       font-size: 12px;

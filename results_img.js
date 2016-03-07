@@ -36,6 +36,15 @@ function validate(str) {
     return str;
 }
 
+// Image Sie Validation
+//**********************************************
+function validateSize(num, formatted) {
+    if (num > 1048576) {
+        return '<span class="warn" id="time">' + formatted + '<span class="warn tooltip" content="This image is larger than recommended for email; it could load very slowly on mobile devices."></span></span>'
+    }
+    return formatted;
+}
+
 // Format bytes to KB, MB, or GB
 //**********************************************
 function formatBytes(bytes,decimals) {
@@ -67,12 +76,12 @@ function showImgs() {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span><hr />\n' +
             '<p class="break" style="padding-left:6.75em;"><b>Image:</b> ' +
             highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p>' +
-            '<p class="break" style="padding-left:6.75em;"><b>Alt Text:</b> ' +
+            '<p class="break"><b>Alt Text:</b> ' +
             highlight(allImgs[i].alt) + '</p>\n' +
-            '<p class="break" style="padding-left:6.75em;"><b>Title Text:</b> ' +
+            '<p class="break"><b>Title Text:</b> ' +
             highlight(allImgs[i].title) + '</p>' +
-            '<p class="break" style="padding-left:6.75em;"><b>Image Size:</b> ' +
-            formatBytes(allImgs[i].size, 1) + '</p>';
+            '<p class="break"><b>Image Size:</b> ' +
+            validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
           col0.innerHTML = resultString;
 
           // Alternating background color
@@ -87,14 +96,14 @@ function showImgs() {
 
         } else if ((allImgs[i].size > 1024 && !/spacer/i.test(allImgs[i].src)) || (allImgs[i].alt || allImgs[i].title)) {
           resultString = '<span class="txt"><img src="' + allImgs[i].src + '"/></span><hr />\n' +
-          '<p class="break" style="padding-left:6.75em;"><b>Image:</b> ' +
+          '<p class="break"><b>Image:</b> ' +
           highlight(validate(allImgs[i].src.replace(/.*?([^\.\/]*\.[^\.]*)$/ig, '$1'))) + '</p>' +
-              '<p class="break" style="padding-left:6.75em;"><b>Alt Text:</b> ' +
+              '<p class="break"><b>Alt Text:</b> ' +
                   highlight(allImgs[i].alt) + '</p>\n' +
-                  '<p class="break" style="padding-left:6.75em;"><b>Title Text:</b> ' +
+                  '<p class="break"><b>Title Text:</b> ' +
                   highlight(allImgs[i].title) + '</p>' +
-                  '<p class="break" style="padding-left:6.75em;"><b>Image Size:</b> ' +
-                  formatBytes(allImgs[i].size, 1) + '</p>';
+                  '<p class="break"><b>Image Size:</b> ' +
+                  validateSize(allImgs[i].size, formatBytes(allImgs[i].size, 1)) + '</p>';
                   col0.innerHTML = resultString;
 
                   // Alternating background color
