@@ -3,12 +3,17 @@
 
 var linksArray = [],
     fullLinks = [],
-    title = document.getElementsByTagName("title")[0].innerHTML || '',
+    title = document.getElementsByTagName("title") || '',
     aXML,
     tabURL = window.location.href || '',
     imgArray = [],
     imgXML,
     fullImg = [];
+
+// Title Bug Fix
+if (title[0]) {
+  title = title[0].innerHTML;
+}
 
 function grabURLS (cb) {
   // Only grab email links in Gmail
@@ -34,7 +39,7 @@ function grabURLS (cb) {
   for (var i = 0; i < linksArray[0].length; i++) {
       if (linksArray[0][i].length > 0) {
           fullLinks.push({
-              title: title,
+              title: (JSON.stringify(title) == '{}') ? tabURL : title,
               url: linksArray[0][i],
               text: linksArray[1][i]
           });
