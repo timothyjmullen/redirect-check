@@ -68,7 +68,7 @@ function checkPT() {
     filtLinks.push({
         title: "Plain Text Results",
         url: pturls[u],
-        text: pttext[u].replace(/http/ig, '')
+        text: (pttext && pttext[u]) ? pttext[u].replace(/http/ig, '') : pturls[u]
       })
   }
   checkLinks(true);
