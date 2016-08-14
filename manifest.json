@@ -3,18 +3,18 @@
     "description": "Checks redirects on all selected links in the page and validates the syntax.",
     "short_name": "Redirect Check",
     "icons": {
-        "128": "rdc128.png"
+        "128": "lib/img/rdc128.png"
     },
     "version": "1.9",
     "minimum_chrome_version": "16.0.884",
     "background": {
-        "scripts": ["eventPage.js"],
+        "scripts": ["lib/js/eventPage.js"],
         "persistent": false
     },
     "permissions": ["<all_urls>","storage"],
     "browser_action": {
         "default_popup": "popup.html",
-        "default_icon": "rdc.png"
+        "default_icon": "lib/img/rdc.png"
     },
     "options_ui": {
       "page": "options.html",

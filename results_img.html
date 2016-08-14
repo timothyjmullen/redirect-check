@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
-    <script src='results_img.js'></script>
+    <script src='lib/js/results_img.js'></script>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-    <link href='main.css' rel='stylesheet' type='text/css'>
+    <link href='lib/css/font-awesome.min.css' rel='stylesheet' type='text/css'/>
+    <link href='lib/css/main.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -10,7 +11,12 @@
         <div class="wrapper">
             <h1 class="fl headline">Alt &amp; Title Text Results</h1>
             <div class="hdr-container fr">
-                <input type="text" id="highlight" placeholder="Highlight" />
+              <span id="errors-total" class="warn hide">0 Errors</span>
+              <span id="warnings-total" class="warn warning hide">0 Warnings</span>
+              <div class="hdr-container" style="display:inline-block;">
+                <input type="text" id="highlight" class="highlight" placeholder="Highlight" />
+                <i class="fa fa-pencil" aria-hidden="true" style="position:absolute;right:10px;top:10px;color:#888;font-size:16px;line-height:18px;"></i>
+              </div>
             </div>
         </div>
     </div>
@@ -27,7 +33,7 @@
     <div class="img_cont">
       <div class="wrapper">
         <div id="loading">
-          <div id="cssload-pgloading">
+          <!--<div id="cssload-pgloading">
           	<div class="cssload-loadingwrap">
           		<ul class="cssload-bokeh">
           			<li></li>
@@ -36,7 +42,8 @@
           			<li></li>
           		</ul>
           	 </div>
-            </div>
+           </div>-->
+           <div class="load-bar" style="position:absolute;top:40%;border-radius:3px;overflow:hidden;width:95%;"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
           </div>
           <table id="links" class="hide" cellspacing="8" cellpadding="0" width="100%">
           </table>

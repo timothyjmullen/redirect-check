@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-    <link href='main.css' rel='stylesheet' type='text/css'/>
-    <script src='filesave.js'></script>
+    <link href='lib/css/font-awesome.min.css' rel='stylesheet' type='text/css'/>
+    <link href='lib/css/main.css' rel='stylesheet' type='text/css'/>
+    <script src='lib/js/filesave.js'></script>
 </head>
 
 <body>
@@ -10,10 +11,15 @@
         <div class="wrapper">
             <h1 class="fl headline">Redirect Results</h1>
             <div class="hdr-container fr">
-            <button id="openall">OPEN ALL URLS</button>
+              <span id="errors-total" class="warn hide">0 Errors</span>
+              <span id="warnings-total" class="warn warning hide">0 Warnings</span>
+              <button id="openall">OPEN ALL URLS</button>
             <!--<input type="text" id="filter" placeholder="Filter" />-->
-            <input type="text" id="highlight" placeholder="Highlight" />
-          </div>
+              <div class="hdr-container" style="display:inline-block;">
+                <input type="text" id="highlight" class="highlight" placeholder="Highlight" />
+                <i class="fa fa-pencil" aria-hidden="true" style="position:absolute;right:10px;top:10px;color:#888;font-size:16px;line-height:18px;"></i>
+              </div>
+            </div>
         </div>
     </div>
 
@@ -25,11 +31,11 @@
           </div>
           <label for="myonoffswitch">&#160;&#160;Show Full Redirect Chain</label>
             <!--<input type="checkbox" id="fullCheck" style="margin:0;padding:0;" /> <span style="vertical-align:2px;"><label for="fullCheck">Display full redirect chain.</label></span>--></div>
-        <div id="save" class="fr" title="Download Results">&#10515;&#160;&#160;Download Results</div>
+        <div id="save" class="fr" title="Download Results"><i class="fa fa-download" aria-hidden="true"></i>&#160;&#160;Download Results</div>
     </div>
     <div class="wrapper">
       <div id="loading">
-        <div class="show" id="cssload-pgloading">
+        <!--<div class="show" id="cssload-pgloading">
           <div class="cssload-loadingwrap">
             <ul class="cssload-bokeh">
               <li></li>
@@ -37,8 +43,9 @@
               <li></li>
               <li></li>
             </ul>
-           </div>
           </div>
+        </div>-->
+         <div class="load-bar" style="position:absolute;top:40%;border-radius:3px;overflow:hidden;width:95%;"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
         </div>
         <table id="links" class="hide" cellspacing="8" cellpadding="0" width="100%">
         </table>
@@ -46,7 +53,7 @@
     <br />
     <br />
     <div id="copy"></div>
-        <script src='results.js'></script>
+        <script src='lib/js/results.js'></script>
 </body>
 
 </html>
