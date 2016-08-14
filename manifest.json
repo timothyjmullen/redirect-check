@@ -11,7 +11,7 @@
         "scripts": ["lib/js/eventPage.js"],
         "persistent": false
     },
-    "permissions": ["<all_urls>","storage"],
+    "permissions": ["<all_urls>","storage","contextMenus"],
     "browser_action": {
         "default_popup": "popup.html",
         "default_icon": "lib/img/rdc.png"
