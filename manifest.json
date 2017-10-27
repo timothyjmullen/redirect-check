@@ -5,7 +5,7 @@
     "icons": {
         "128": "lib/img/rdc128.png"
     },
-    "version": "1.9",
+    "version": "1.9.4",
     "minimum_chrome_version": "16.0.884",
     "background": {
         "scripts": ["lib/js/eventPage.js"],
